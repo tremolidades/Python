@@ -17,13 +17,13 @@ if __name__ == '__main__':
 		destiny_path = input('Ingrese la ruta de destino: ')
 		if not os.path.exists(destiny_path):
 				os.makedirs(destiny_path) # Crea directorio sólo si no existe
-				if(os.path.islink(destiny_path) == False):
+				if(os.path.islink(destiny_path) == False): # Valida que sea un directorio válido
 					raise
 
 		if(destiny_path[-1] != '/' or destiny_path[-1] != '\\'):
 			destiny_path = destiny_path + '\\'
 
-		f=open(destiny_path+'\\merge.csv',"w")
+		f=open(destiny_path+'\\merge.csv',"w") # Crea el archivo con los permisos necesarios
 		for file in files:
 			i +=1 # Agrega Headers sólo en la primera iteración
 			if(i == 1):
@@ -33,10 +33,10 @@ if __name__ == '__main__':
 			else:
 				on_file = open(path+file,'r',encoding="utf-8")
 				df = pd.read_csv(path+file, header=0,encoding='utf-8')
-				np_array_list.append(df.as_matrix())
+				np_array_list.append(df.as_matrix()) # Agrega todo en un array
 
 		comb_np_array = np.vstack(np_array_list) # La magia de pandas y numpy ~
-		big_frame = pd.DataFrame(comb_np_array)
+		big_frame = pd.DataFrame(comb_np_array) # Creación del Dataframe de pandas
 		big_frame.to_csv(destiny_path+'merge.csv',encoding='utf-8-sig',index=False, sep=',',header=False)
 		print('Se ha fusionado exitosamente el archivo!')
 
